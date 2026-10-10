@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TrailMates — Less Scrolling. More Wandering.</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Caveat, Playfair Display, Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            paper: '#FAF7EF',
+            ink: '#28352B',
+            forest: {
+              DEFAULT: '#254D3A',
+              50: '#F0F7F2',
+              100: '#D8E8DD',
+              600: '#254D3A',
+              700: '#1B3B2B',
+              800: '#12291E',
+            },
+            sage: '#A8B89A',
+            butter: '#F4D77A',
+            sky: '#C9E4E8',
+            terracotta: '#D88F72',
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            handwriting: ['Caveat', 'cursive'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-paper text-ink font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-butter selection:text-ink">
+
+  <!-- Navigation Header -->
+  <header class="bg-paper/90 backdrop-blur-md border-b-2 border-forest/10 sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
+      
+      <a href="#" class="flex items-center space-x-2.5 group">
+        <div class="w-10 h-10 rounded-2xl bg-forest text-paper flex items-center justify-center font-bold text-xl shadow-md transform group-hover:rotate-6 transition">
+          🌿
+        </div>
+        <div>
+          <span class="font-serif font-bold text-xl text-forest tracking-tight block leading-none">TrailMates</span>
+          <span class="font-handwriting text-sm text-terracotta leading-none">your pocket outdoor buddy</span>
+        </div>
+      </a>
+
+      <div class="flex items-center space-x-3">
+        <div id="ai-status-indicator" class="hidden sm:flex items-center gap-2 text-xs bg-white border border-forest/20 px-3 py-1.5 rounded-full font-medium shadow-sm">
+          <span id="status-dot" class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span>
+          <span id="status-text" class="text-xs text-slate-700">Checking status...</span>
+        </div>
+
+        <button id="btn-trace-modal" class="text-xs bg-forest hover:bg-forest-700 text-paper px-3.5 py-2 rounded-xl font-bold transition flex items-center gap-1.5 shadow-sm">
+          <i data-lucide="activity" class="w-3.5 h-3.5 text-butter"></i>
+          <span>Traces</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full space-y-16">
+    
+    <!-- 2. HERO SECTION -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pt-4 sm:pt-8">
+      
+      <!-- Hero Text Column (7 Cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <div class="inline-flex items-center gap-2 bg-butter/40 border border-butter text-forest px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
+          <span>✨</span> YOUR POCKET-SIZED OUTDOOR BUDDY
+        </div>
+
+        <h1 class="font-serif text-4xl sm:text-6xl font-bold text-forest leading-[1.1] tracking-tight">
+          Less scrolling.<br/>
+          More <span class="wavy-underline text-forest">wandering.</span>
+        </h1>
+
+        <p class="text-slate-700 text-base sm:text-xl leading-relaxed max-w-xl font-normal">
+          Your next little adventure is closer than you think. Tell TrailMates your mood, your time, and your surroundings. We'll help you step outside.
+        </p>
+
+        <!-- CTAs & Annotation -->
+        <div class="pt-2 flex flex-col sm:flex-row items-start sm:items-center gap-4 relative">
+          
+          <a href="#planner-section" class="w-full sm:w-auto bg-forest hover:bg-forest-700 text-paper font-bold px-7 py-4 rounded-2xl shadow-lg hover:shadow-xl transition transform active:scale-95 flex items-center justify-center gap-2 text-base">
+            <span>Find my little adventure</span>
+            <span class="text-xl">↗</span>
+          </a>
+
+          <a href="#how-it-works" class="w-full sm:w-auto text-forest hover:text-forest-700 font-bold px-5 py-3 text-sm flex items-center justify-center gap-1.5">
+            <span>How it works</span>
+            <span>↓</span>
+          </a>
+
+          <!-- Handwritten Annotation -->
+          <div class="hidden sm:block absolute -bottom-10 left-4 font-handwriting text-xl text-terracotta transform -rotate-3 select-none">
+            psst… fresh air looks good on you :)
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Hero Inline SVG Illustration (5 Cols) -->
+      <div class="lg:col-span-5 relative flex justify-center">
+        
+        <div class="relative w-full max-w-md aspect-square bg-sky/30 rounded-3xl p-6 border-2 border-forest/20 overflow-hidden shadow-inner">
+          
+          <!-- Sun with smiling face -->
+          <svg class="absolute top-4 right-6 w-20 h-20 text-butter animate-sun" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="28" fill="currentColor" />
+            <g stroke="#254D3A" stroke-width="4" stroke-linecap="round">
+              <line x1="50" y1="6" x2="50" y2="16"/>
+              <line x1="50" y1="84" x2="50" y2="94"/>
+              <line x1="6" y1="50" x2="16" y2="50"/>
+              <line x1="84" y1="50" x2="94" y2="50"/>
+              <line x1="19" y1="19" x2="26" y2="26"/>
+              <line x1="74" y1="74" x2="81" y2="81"/>
+              <line x1="19" y1="81" x2="26" y2="74"/>
+              <line x1="74" y1="26" x2="81" y2="19"/>
+            </g>
+            <circle cx="42" cy="45" r="3" fill="#254D3A"/>
+            <circle cx="58" cy="45" r="3" fill="#254D3A"/>
+            <path d="M 42 56 Q 50 64, 58 56" fill="none" stroke="#254D3A" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+
+          <!-- Fluttering Butterfly -->
+          <div class="absolute top-12 left-10 text-2xl animate-butterfly pointer-events-none">
+            🦋
+          </div>
+
+          <!-- Winding Path & Hill SVG -->
+          <svg class="w-full h-full" viewBox="0 0 300 300" fill="none">
+            <!-- Hills -->
+            <path d="M0 240 Q 90 180, 180 230 T 300 220 L 300 300 L 0 300 Z" fill="#A8B89A" opacity="0.6"/>
+            <path d="M0 260 Q 120 210, 220 250 T 300 240 L 300 300 L 0 300 Z" fill="#254D3A" opacity="0.8"/>
+            
+            <!-- Winding Path -->
+            <path d="M 150 300 Q 120 240, 180 200 T 80 120" stroke="#F4D77A" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <path d="M 150 300 Q 120 240, 180 200 T 80 120" class="animated-dotted-path" stroke="#254D3A" stroke-width="3" fill="none"/>
+
+            <!-- Trees -->
+            <g transform="translate(40, 130)">
+              <polygon points="20,0 0,40 40,40" fill="#254D3A"/>
+              <rect x="16" y="40" width="8" height="15" fill="#D88F72"/>
+            </g>
+            <g transform="translate(210, 160)">
+              <circle cx="20" cy="20" r="22" fill="#254D3A"/>
+              <rect x="16" y="40" width="8" height="15" fill="#D88F72"/>
+            </g>
+
+            <!-- Little Backpack -->
+            <g transform="translate(130, 210)">
+              <rect x="0" y="0" width="20" height="24" rx="4" fill="#D88F72"/>
+              <rect x="4" y="-4" width="12" height="4" fill="#F4D77A"/>
+            </g>
+          </svg>
+
+          <!-- Sketched Annotations -->
+          <div class="absolute top-24 right-4 font-handwriting text-lg text-forest font-bold rotate-6">
+            look up :)
+          </div>
+          <div class="absolute bottom-12 left-4 font-handwriting text-lg text-forest font-bold -rotate-6">
+            take the scenic route
+          </div>
+          <div class="absolute bottom-4 right-12 font-handwriting text-lg text-terracotta font-bold">
+            breathe here 🍃
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- 4. "PICK YOUR ADVENTURE MOOD" SECTION -->
+    <section class="space-y-6">
+      <div class="text-center max-w-xl mx-auto space-y-2">
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-forest">
+          Okay, what's your kind of outside?
+        </h2>
+        <p class="text-slate-600 text-sm">
+          Click a mood below to pre-fill your adventure planner!
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        
+        <!-- Mood 1 -->
+        <div class="mood-card bg-white p-6 rounded-3xl border-2 border-forest/15 shadow-sm cursor-pointer hover:shadow-md" data-activity="Walking" data-setting="Park">
+          <div class="w-12 h-12 rounded-2xl bg-forest/10 text-2xl flex items-center justify-center mb-3">🌿</div>
+          <h3 class="font-bold text-lg text-forest mb-1">The Slow Wander</h3>
+          <p class="text-xs text-slate-600">Peaceful walks, gentle movement, and fresh air.</p>
+        </div>
+
+        <!-- Mood 2 -->
+        <div class="mood-card bg-white p-6 rounded-3xl border-2 border-forest/15 shadow-sm cursor-pointer hover:shadow-md" data-activity="Nature photography" data-setting="Garden">
+          <div class="w-12 h-12 rounded-2xl bg-terracotta/20 text-2xl flex items-center justify-center mb-3">📸</div>
+          <h3 class="font-bold text-lg text-forest mb-1">Tiny Explorer</h3>
+          <p class="text-xs text-slate-600">Nature photography, macros, and little discoveries.</p>
+        </div>
+
+        <!-- Mood 3 -->
+        <div class="mood-card bg-white p-6 rounded-3xl border-2 border-forest/15 shadow-sm cursor-pointer hover:shadow-md" data-activity="Birdwatching" data-setting="Hiking trail">
+          <div class="w-12 h-12 rounded-2xl bg-sky text-2xl flex items-center justify-center mb-3">🐦</div>
+          <h3 class="font-bold text-lg text-forest mb-1">Birdwatching Buddy</h3>
+          <p class="text-xs text-slate-600">Notice local birds, calls, and treetop movements.</p>
+        </div>
+
+        <!-- Mood 4 -->
+        <div class="mood-card bg-white p-6 rounded-3xl border-2 border-forest/15 shadow-sm cursor-pointer hover:shadow-md" data-activity="Mindful outdoor break" data-setting="Neighborhood">
+          <div class="w-12 h-12 rounded-2xl bg-butter/50 text-2xl flex items-center justify-center mb-3">☁️</div>
+          <h3 class="font-bold text-lg text-forest mb-1">Mindful Minutes</h3>
+          <p class="text-xs text-slate-600">Breathe deep, sensory reset, and quiet observation.</p>
+        </div>
+
+        <!-- Mood 5 -->
+        <div class="mood-card bg-white p-6 rounded-3xl border-2 border-forest/15 shadow-sm cursor-pointer hover:shadow-md" data-activity="Park exploration" data-setting="Park">
+          <div class="w-12 h-12 rounded-2xl bg-sage/40 text-2xl flex items-center justify-center mb-3">🌼</div>
+          <h3 class="font-bold text-lg text-forest mb-1">Nature Detective</h3>
+          <p class="text-xs text-slate-600">Find leaf patterns, tree bark textures, and fall colors.</p>
+        </div>
+
+        <!-- Mood 6 -->
+        <div class="mood-card bg-white p-6 rounded-3xl border-2 border-forest/15 shadow-sm cursor-pointer hover:shadow-md" data-activity="Surprise me" data-setting="Any accessible outdoor space">
+          <div class="w-12 h-12 rounded-2xl bg-butter text-2xl flex items-center justify-center mb-3">🎲</div>
+          <h3 class="font-bold text-lg text-forest mb-1">Surprise Me!</h3>
+          <p class="text-xs text-slate-600">Let TrailMates pick a fun, unexpected outdoor prompt.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. HOW IT WORKS — ILLUSTRATED MINI-STORY -->
+    <section id="how-it-works" class="bg-white rounded-3xl p-8 sm:p-10 border-2 border-forest/15 shadow-md relative overflow-hidden">
+      <div class="text-center max-w-lg mx-auto mb-10">
+        <span class="font-handwriting text-xl text-terracotta">simple as 1, 2, 3</span>
+        <h2 class="font-serif text-3xl font-bold text-forest">How TrailMates Works</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+        
+        <div class="text-center space-y-3">
+          <div class="w-14 h-14 rounded-2xl bg-butter text-forest font-bold text-2xl flex items-center justify-center mx-auto shadow-sm">01</div>
+          <h3 class="font-bold text-base text-forest">Tell us your vibe</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">Got 15 minutes or a whole hour? Select your mood and available time.</p>
+        </div>
+
+        <div class="text-center space-y-3">
+          <div class="w-14 h-14 rounded-2xl bg-sky text-forest font-bold text-2xl flex items-center justify-center mx-auto shadow-sm">02</div>
+          <h3 class="font-bold text-base text-forest">Get your little plan</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">Your open-weight AI trail buddy turns your mood into a step-by-step adventure.</p>
+        </div>
+
+        <div class="text-center space-y-3">
+          <div class="w-14 h-14 rounded-2xl bg-sage/60 text-forest font-bold text-2xl flex items-center justify-center mx-auto shadow-sm">03</div>
+          <h3 class="font-bold text-base text-forest">Touch grass, literally</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">Pocket your phone. Notice the little things. Come back refreshed.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6. INTERACTIVE ADVENTURE PLANNER PREVIEW ("TODAY'S FIELD NOTES") -->
+    <section id="planner-section" class="scroll-mt-24 space-y-8">
+      
+      <div class="text-center max-w-xl mx-auto space-y-2">
+        <span class="font-handwriting text-2xl text-terracotta">your outdoor field journal</span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-forest">Build Your Little Adventure</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Planner Form (5 Cols) -->
+        <div class="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-7 border-2 border-forest/20 shadow-lg relative">
+          <div class="absolute -top-3.5 left-6 bg-butter text-forest text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-forest/20">
+            TODAY'S FIELD NOTES
+          </div>
+
+          <form id="adventure-form" class="space-y-5 pt-2">
+            
+            <!-- Activity -->
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Activity Type</label>
+              <select id="input-activity" class="w-full bg-paper border-2 border-forest/20 rounded-2xl px-4 py-3 text-sm font-medium text-slate-800 focus:outline-none">
+                <option value="Walking">Walking 🚶‍♂️</option>
+                <option value="Nature photography">Nature Photography 📸</option>
+                <option value="Birdwatching">Birdwatching 🐦</option>
+                <option value="Park exploration">Park Exploration 🌳</option>
+                <option value="Mindful outdoor break">Mindful Outdoor Break 🧘</option>
+                <option value="Surprise me">Surprise Me! 🎲</option>
+              </select>
+            </div>
+
+            <!-- Time -->
+            <div>
+              <div class="flex justify-between items-center mb-1.5">
+                <label class="text-xs font-bold text-slate-700 uppercase tracking-wider">Available Time</label>
+                <span id="time-val-display" class="text-xs font-bold text-forest bg-forest/10 px-2.5 py-0.5 rounded-full">30 Minutes</span>
+              </div>
+              <div class="grid grid-cols-4 gap-2 text-center text-xs font-bold">
+                <label class="time-pill cursor-pointer border-2 rounded-xl py-2.5 transition border-forest/20 text-slate-700 hover:border-forest">
+                  <input type="radio" name="time" value="15" class="hidden" />
+                  15m
+                </label>
+                <label class="time-pill cursor-pointer border-2 rounded-xl py-2.5 transition bg-forest/10 border-forest text-forest">
+                  <input type="radio" name="time" value="30" checked class="hidden" />
+                  30m
+                </label>
+                <label class="time-pill cursor-pointer border-2 rounded-xl py-2.5 transition border-forest/20 text-slate-700 hover:border-forest">
+                  <input type="radio" name="time" value="45" class="hidden" />
+                  45m
+                </label>
+                <label class="time-pill cursor-pointer border-2 rounded-xl py-2.5 transition border-forest/20 text-slate-700 hover:border-forest">
+                  <input type="radio" name="time" value="60" class="hidden" />
+                  60m
+                </label>
+              </div>
+            </div>
+
+            <!-- Energy -->
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Energy Level</label>
+              <div class="grid grid-cols-3 gap-2">
+                <label class="energy-option cursor-pointer p-3 border-2 rounded-2xl text-center transition hover:border-forest border-forest/20 text-slate-700">
+                  <input type="radio" name="energy" value="Low" class="hidden" />
+                  <div class="text-lg mb-0.5">🌱</div>
+                  <div class="text-xs font-bold">Low</div>
+                </label>
+
+                <label class="energy-option cursor-pointer p-3 border-2 rounded-2xl text-center transition hover:border-forest bg-forest/10 border-forest text-forest">
+                  <input type="radio" name="energy" value="Medium" checked class="hidden" />
+                  <div class="text-lg mb-0.5">🥾</div>
+                  <div class="text-xs font-bold">Medium</div>
+                </label>
+
+                <label class="energy-option cursor-pointer p-3 border-2 rounded-2xl text-center transition hover:border-forest border-forest/20 text-slate-700">
+                  <input type="radio" name="energy" value="High" class="hidden" />
+                  <div class="text-lg mb-0.5">⛰️</div>
+                  <div class="text-xs font-bold">High</div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Setting -->
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Outdoor Setting</label>
+              <select id="input-setting" class="w-full bg-paper border-2 border-forest/20 rounded-2xl px-4 py-3 text-sm font-medium text-slate-800 focus:outline-none">
+                <option value="Park">Local Park 🌳</option>
+                <option value="Garden">Garden / Backyard 🌷</option>
+                <option value="Neighborhood">Neighborhood Walk 🏡</option>
+                <option value="Hiking trail">Hiking Trail 🌲</option>
+                <option value="Any accessible outdoor space">Any Accessible Green Space 🍃</option>
+              </select>
+            </div>
+
+            <!-- Interests -->
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Interests</label>
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <label class="flex items-center gap-2 p-2 border-2 border-forest/20 rounded-xl cursor-pointer hover:bg-forest/5 transition">
+                  <input type="checkbox" name="interest" value="Nature" checked class="accent-forest" />
+                  <span>Nature 🌿</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 border-2 border-forest/20 rounded-xl cursor-pointer hover:bg-forest/5 transition">
+                  <input type="checkbox" name="interest" value="Photography" class="accent-forest" />
+                  <span>Photography 📸</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 border-2 border-forest/20 rounded-xl cursor-pointer hover:bg-forest/5 transition">
+                  <input type="checkbox" name="interest" value="Mindfulness" checked class="accent-forest" />
+                  <span>Mindfulness 🧘</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 border-2 border-forest/20 rounded-xl cursor-pointer hover:bg-forest/5 transition">
+                  <input type="checkbox" name="interest" value="Exploration" class="accent-forest" />
+                  <span>Exploration 🧭</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Optional Note -->
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Optional Note</label>
+              <input type="text" id="input-note" maxlength="200" placeholder="e.g. Prefer quiet bench, near flowers..." class="w-full bg-paper border-2 border-forest/20 rounded-2xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none" />
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" id="btn-submit" class="w-full bg-forest hover:bg-forest-700 text-paper font-bold py-4 px-4 rounded-2xl shadow-lg hover:shadow-xl transition transform active:scale-95 flex items-center justify-center gap-2 text-base">
+              <span>Find My Adventure</span>
+              <span class="text-xl">↗</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Result Container (7 Cols) -->
+        <div class="lg:col-span-7">
+          
+          <!-- Placeholder State -->
+          <div id="state-placeholder" class="bg-white rounded-3xl p-8 border-2 border-forest/20 shadow-sm text-center py-16">
+            <div class="w-16 h-16 bg-forest/10 text-forest rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+              🪵
+            </div>
+            <h3 class="font-serif text-2xl font-bold text-forest mb-2">Ready for Fresh Air?</h3>
+            <p class="text-slate-600 text-sm max-w-md mx-auto mb-6">
+              Configure your preferences on the left, then click <strong>"Find My Adventure"</strong> to generate your journal entry.
+            </p>
+          </div>
+
+          <!-- Loading State (Illustrated Tiny Hiker) -->
+          <div id="state-loading" class="hidden bg-white rounded-3xl p-12 border-2 border-forest/20 shadow-md text-center py-20">
+            <div class="relative w-20 h-20 mx-auto mb-6">
+              <div class="w-20 h-20 rounded-full border-4 border-forest/20 border-t-forest animate-spin"></div>
+              <div class="absolute inset-0 flex items-center justify-center text-2xl">🥾</div>
+            </div>
+            <h3 class="font-serif text-xl font-bold text-forest mb-2">Finding your next little adventure…</h3>
+            <p id="loading-step-text" class="text-xs text-forest font-medium">Connecting to AI trail buddy...</p>
+          </div>
+
+          <!-- Error State -->
+          <div id="state-error" class="hidden bg-white rounded-3xl p-8 border-2 border-rose-200 shadow-md text-center py-12">
+            <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">⚠️</div>
+            <h3 class="font-serif text-xl font-bold text-slate-800 mb-1">Could Not Generate Plan</h3>
+            <p id="error-message-text" class="text-xs text-slate-500 mb-4 max-w-md mx-auto">An error occurred while connecting to the backend service.</p>
+            <button id="btn-retry" class="bg-forest text-paper text-xs font-bold px-4 py-2.5 rounded-xl transition">Retry Search</button>
+          </div>
+
+          <!-- Active Adventure Result Card -->
+          <div id="state-result" class="hidden space-y-6">
+            
+            <div class="bg-white rounded-3xl p-7 border-2 border-forest/20 shadow-xl space-y-6">
+              
+              <!-- Attribution Badge -->
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <span id="badge-attribution" class="text-xs font-bold px-3.5 py-1 rounded-full flex items-center gap-1.5 bg-forest/10 text-forest">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                  <span>Generated by Open-Weight AI</span>
+                </span>
+                <span id="badge-tabpfn" class="text-[11px] font-semibold text-slate-600 bg-paper px-2.5 py-1 rounded-md border border-forest/20">
+                  TabPFN Feasibility: 95%
+                </span>
+              </div>
+
+              <!-- Title & Description -->
+              <div>
+                <h2 id="plan-title" class="font-serif text-2xl sm:text-3xl font-bold text-forest mb-2">
+                  The Fall Foliage Forest Escape
+                </h2>
+                <p id="plan-description" class="text-sm text-slate-600 leading-relaxed">
+                  A refreshing 30-minute outdoor break designed to clear your mind.
+                </p>
+              </div>
+
+              <!-- Audio Trail Guide Section with PLAY & STOP Buttons -->
+              <div class="bg-forest text-paper rounded-2xl p-4 shadow-inner flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-xl bg-forest-700 flex items-center justify-center text-xl shrink-0">
+                    🎧
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-butter">Audio Trail Guide</h4>
+                    <p class="text-xs text-slate-200" id="audio-status-text">Listen to briefing before locking your screen</p>
+                  </div>
+                </div>
+
+                <!-- PLAY and STOP Audio Controls -->
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                  <button id="btn-play-audio" class="flex-1 sm:flex-initial bg-butter hover:bg-yellow-300 text-forest text-xs font-bold px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm">
+                    <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+                    <span>Play Guide</span>
+                  </button>
+
+                  <button id="btn-stop-audio" class="flex-1 sm:flex-initial bg-rose-700 hover:bg-rose-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm">
+                    <i data-lucide="square" class="w-4 h-4 fill-current"></i>
+                    <span>Stop Audio</span>
+                  </button>
+                </div>
+              </div>
+              <audio id="audio-player" class="hidden"></audio>
+
+              <!-- Activity Steps -->
+              <div class="space-y-3">
+                <div class="flex items-center justify-between border-b border-forest/10 pb-2">
+                  <h3 class="font-serif text-lg font-bold text-forest flex items-center gap-2">
+                    <i data-lucide="footprints" class="w-5 h-5 text-forest"></i> Timeline Steps
+                  </h3>
+                  <span id="plan-total-duration" class="text-xs font-bold text-forest bg-forest/10 px-3 py-1 rounded-full">30 Mins</span>
+                </div>
+                <div id="plan-steps" class="space-y-3 border-l-2 border-forest/20 pl-4 ml-2">
+                  <!-- Steps rendered via JS -->
+                </div>
+              </div>
+
+              <!-- Phone-Free Challenge -->
+              <div class="bg-butter/30 border-2 border-butter rounded-2xl p-5 text-ink space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="bg-forest text-paper text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">Screen-Free Challenge</span>
+                  <span class="text-xs font-bold text-forest">📱🔒 Phone In Pocket</span>
+                </div>
+                <h4 id="challenge-name" class="font-serif text-lg font-bold text-forest">Sensory Reset</h4>
+                <p id="challenge-instructions" class="text-xs text-slate-700">Notice 5 natural textures and 4 ambient outdoor sounds.</p>
+                <div class="bg-white/80 rounded-xl p-2.5 text-xs font-medium border border-butter text-forest">
+                  🔒 <strong>Phone Rule:</strong> <span id="challenge-phone-rule">Keep your phone in your pocket!</span>
+                </div>
+              </div>
+
+              <!-- Reflection Question -->
+              <div class="bg-forest/5 border border-forest/10 rounded-2xl p-4">
+                <h4 class="font-bold text-xs uppercase text-forest mb-1">Post-Walk Reflection</h4>
+                <p id="plan-reflection" class="text-xs text-slate-700 italic">"What is one small detail you noticed today?"</p>
+              </div>
+
+              <!-- Items & Safety -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-paper rounded-2xl p-4 border border-forest/15">
+                  <h4 class="font-bold text-xs uppercase text-forest mb-2">Items to Bring</h4>
+                  <ul id="plan-items" class="space-y-1.5 text-xs text-slate-700"></ul>
+                </div>
+                <div class="bg-paper rounded-2xl p-4 border border-forest/15">
+                  <h4 class="font-bold text-xs uppercase text-forest mb-2">Safety & Eco Tips</h4>
+                  <ul id="plan-tips" class="space-y-1.5 text-xs text-slate-700"></ul>
+                </div>
+              </div>
+
+              <!-- Action Footer -->
+              <div class="flex items-center justify-between pt-2">
+                <span class="text-xs text-slate-500">Ready? Take a quick screenshot or print this entry.</span>
+                <button onclick="window.print()" class="bg-forest hover:bg-forest-700 text-paper text-xs font-bold px-4 py-2.5 rounded-xl transition flex items-center gap-1.5">
+                  <i data-lucide="printer" class="w-4 h-4"></i>
+                  <span>Print Entry</span>
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- 7. "TINY REMINDERS FROM THE OUTDOORS" COLLAGE -->
+    <section class="space-y-6 pt-6">
+      <div class="text-center max-w-md mx-auto">
+        <span class="font-handwriting text-2xl text-terracotta">little field notes</span>
+        <h2 class="font-serif text-3xl font-bold text-forest">Reminders from the Outdoors</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 text-center">
+        
+        <div class="sticky-note p-5 flex items-center justify-center min-h-[120px]">
+          <p class="font-handwriting text-xl text-forest font-bold">"The sky is doing something pretty today."</p>
+        </div>
+
+        <div class="sticky-note p-5 flex items-center justify-center min-h-[120px]">
+          <p class="font-handwriting text-xl text-forest font-bold">"You don't need a big plan to go outside."</p>
+        </div>
+
+        <div class="sticky-note p-5 flex items-center justify-center min-h-[120px]">
+          <p class="font-handwriting text-xl text-forest font-bold">"Take the long way home."</p>
+        </div>
+
+        <div class="sticky-note p-5 flex items-center justify-center min-h-[120px]">
+          <p class="font-handwriting text-xl text-forest font-bold">"Look up from your screen for a second."</p>
+        </div>
+
+        <div class="sticky-note p-5 flex items-center justify-center min-h-[120px]">
+          <p class="font-handwriting text-xl text-forest font-bold">"A tiny adventure still counts."</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 8. CHARMING FOOTER -->
+  <footer class="bg-forest text-paper mt-16 pt-12 pb-8 border-t-4 border-butter relative overflow-hidden">
+    
+    <!-- Footer Landscape SVG -->
+    <div class="max-w-6xl mx-auto px-4 text-center space-y-6 relative z-10">
+      
+      <div class="w-12 h-12 rounded-full bg-butter text-forest flex items-center justify-center mx-auto text-2xl">
+        🌱
+      </div>
+
+      <p class="font-serif text-xl sm:text-2xl font-bold max-w-md mx-auto text-paper">
+        Made for people who need a little less screen time and a little more sky.
+      </p>
+
+      <div class="flex items-center justify-center gap-6 text-xs text-sage">
+        <span>Gemma 2 Open Weight</span> • <span>TabPFN</span> • <span>ElevenLabs</span>
+      </div>
+
+      <div class="pt-4 border-t border-paper/10 text-xs text-sage/80 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <span>TrailMates AI — Touch Grass Outdoor Companion</span>
+        <span class="font-handwriting text-lg text-butter">see you outside? 🌱</span>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Sentry Traces Inspection Modal -->
+  <div id="modal-traces" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden border-2 border-forest/20">
+      
+      <div class="bg-forest text-paper px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i data-lucide="activity" class="w-5 h-5 text-butter"></i>
+          <h3 class="font-bold text-lg">Sentry Agent Tracing Inspection</h3>
+        </div>
+        <button id="btn-close-modal" class="text-slate-300 hover:text-white text-2xl font-bold p-1">&times;</button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-4 flex-grow" id="trace-modal-body">
+        <p class="text-xs text-slate-500">
+          Real-time agent execution spans recorded by Sentry Agent Tracing across TabPFN, Hugging Face Open-Weight models, SerpApi, and ElevenLabs:
+        </p>
+        <div id="trace-list" class="space-y-3 font-mono text-xs">
+          <!-- Traces inserted dynamically -->
+        </div>
+      </div>
+
+      <div class="bg-paper px-6 py-3 border-t border-forest/10 text-right">
+        <button id="btn-close-modal-2" class="bg-forest text-paper text-xs font-bold px-4 py-2 rounded-xl">Close</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

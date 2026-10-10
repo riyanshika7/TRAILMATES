@@ -1,0 +1,184 @@
+/* ==========================================================================
+   TRAILMATES 🌿 — Aesthetic Doodle & Hand-Drawn Journal Styles
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-paper: #FAF7EF;
+  --color-ink: #28352B;
+  --color-forest: #254D3A;
+  --color-sage: #A8B89A;
+  --color-butter: #F4D77A;
+  --color-sky: #C9E4E8;
+  --color-terracotta: #D88F72;
+  --color-card-bg: #FFFFFF;
+}
+
+/* Base Setup */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-image: radial-gradient(rgba(37, 77, 58, 0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.font-handwriting {
+  font-family: 'Caveat', cursive;
+}
+
+.font-serif {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Hand-Drawn Wavy Underline Animation */
+.wavy-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.wavy-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 8px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M0 10 Q 25 20, 50 10 T 100 10 T 150 10 T 200 10' fill='none' stroke='%23F4D77A' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x;
+  background-size: 100px 10px;
+  animation: waveDraw 2s ease-in-out infinite alternate;
+}
+
+@keyframes waveDraw {
+  0% { transform: scaleX(0.95) translateY(0); }
+  100% { transform: scaleX(1.05) translateY(-2px); }
+}
+
+/* Imperfect Hand-Drawn Borders */
+.border-doodle {
+  border: 2px solid var(--color-forest);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+
+.border-journal {
+  border: 2.5px solid #334438;
+  border-radius: 24px;
+  box-shadow: 6px 6px 0px #254D3A;
+  transition: all 0.2s ease-in-out;
+}
+
+.border-journal:hover {
+  transform: translateY(-3px);
+  box-shadow: 8px 8px 0px #254D3A;
+}
+
+.sticky-note {
+  background-color: var(--color-paper);
+  border: 2px solid var(--color-ink);
+  border-radius: 12px;
+  box-shadow: 4px 4px 0px var(--color-ink);
+  transform: rotate(-1.5deg);
+  transition: transform 0.2s ease;
+}
+
+.sticky-note:nth-child(even) {
+  transform: rotate(1.8deg);
+  background-color: #FEF6E4;
+}
+
+.sticky-note:hover {
+  transform: rotate(0deg) scale(1.03);
+}
+
+/* Floating Animations */
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(3deg); }
+}
+
+@keyframes sunRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes butterflyFlutter {
+  0%, 100% { transform: translateY(0) translateX(0) rotate(-5deg); }
+  25% { transform: translateY(-12px) translateX(8px) rotate(5deg); }
+  50% { transform: translateY(-6px) translateX(16px) rotate(-3deg); }
+  75% { transform: translateY(-18px) translateX(6px) rotate(4deg); }
+}
+
+.animate-float {
+  animation: floatGentle 4s ease-in-out infinite;
+}
+
+.animate-sun {
+  animation: sunRotate 25s linear infinite;
+}
+
+.animate-butterfly {
+  animation: butterflyFlutter 6s ease-in-out infinite;
+}
+
+/* Dotted Path Dash Animation */
+@keyframes dashTravel {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+.animated-dotted-path {
+  stroke-dasharray: 8 6;
+  animation: dashTravel 2s linear infinite;
+}
+
+/* Card Selection Highlights */
+.mood-card {
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mood-card:hover {
+  transform: translateY(-6px) rotate(-1deg);
+}
+
+.mood-card.selected {
+  border-color: var(--color-forest) !important;
+  background-color: #F0F7F2 !important;
+  box-shadow: 0 0 0 3px var(--color-forest), 6px 6px 0px var(--color-forest) !important;
+}
+
+/* Accessible Focus States */
+button:focus-visible, select:focus-visible, input:focus-visible {
+  outline: 3px solid var(--color-forest);
+  outline-offset: 3px;
+}
+
+/* Reduced Motion Compliance */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print View Optimization */
+@media print {
+  header, footer, form, #btn-trace-modal, .no-print, #state-placeholder, #state-loading, #state-error {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  #state-result {
+    display: block !important;
+    box-shadow: none !important;
+  }
+}
