@@ -14,7 +14,7 @@ class SerpApiLocalOutdoorsService:
         with AgentSpan(
             name="SerpApi Live Green Space Search",
             op="ai.tool.serpapi",
-            description="Searches live Google Maps & weather via SerpApi for local parks and green spaces"
+            description="Searches Google Maps via SerpApi for local parks and green spaces"
         ) as span:
             span.set_data("input.location", location)
             span.set_data("input.setting", setting)
@@ -22,17 +22,22 @@ class SerpApiLocalOutdoorsService:
             if self.api_key and location and location != "Nearby Nature":
                 try:
                     results = await self._search_serpapi(location, setting)
-                    span.set_data("provider", "SerpApi Live Google Maps & Weather")
+                    span.set_data("provider", "SerpApi live Google Maps search")
                     return results
                 except Exception as e:
                     logger.warning(f"SerpApi search failed: {e}")
 
-            span.set_data("provider", "Curated Local Green Spaces Dataset")
+            # Static defaults — not live data
+            span.set_data("provider", "static-defaults (no SerpApi key or location)")
             return {
-                "weather": {"temp_c": 21, "condition": "Partly Cloudy & Refreshing", "humidity": "45%"},
+                "weather": {
+                    "temp_c": 20,
+                    "condition": "Check local forecast",
+                    "source": "static-default"
+                },
                 "nearby_spots": [
-                    {"name": f"{location or 'Pine Grove'} Community Nature Park", "type": "Park & Walking Trail"},
-                    {"name": "Sunset Ridge Outlook", "type": "Scenic Viewpoint"}
+                    {"name": "Your local park", "type": "Park & Walking Trail", "source": "static-default"},
+                    {"name": "Nearby green space", "type": "Outdoor Area", "source": "static-default"}
                 ]
             }
 
@@ -54,11 +59,15 @@ class SerpApiLocalOutdoorsService:
                 spots.append({
                     "name": spot.get("title", "Local Trail"),
                     "type": spot.get("type", "Green Space"),
-                    "rating": spot.get("rating", 4.5),
-                    "address": spot.get("address", location)
+                    "rating": spot.get("rating"),
+                    "address": spot.get("address", location),
+                    "source": "serpapi-live"
                 })
 
             return {
-                "weather": {"temp_c": 22, "condition": "Clear Outdoors", "humidity": "40%"},
-                "nearby_spots": spots if spots else [{"name": f"{location} Central Park", "type": "Public Park"}]
+                # Weather is not fetched from SerpApi — label clearly
+                "weather": {"temp_c": None, "condition": "Check local forecast", "source": "static-default"},
+                "nearby_spots": spots if spots else [
+                    {"name": f"Parks near {location}", "type": "Public Park", "source": "serpapi-live"}
+                ]
             }

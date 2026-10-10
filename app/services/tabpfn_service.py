@@ -29,7 +29,7 @@ class TabPFNAdventureEngine:
             self.has_official_tabpfn = True
             logger.info("Official TabPFN classifier package loaded.")
         except Exception as e:
-            logger.info(f"Using lightweight TabPFN fallback engine: {e}")
+            logger.info(f"TabPFN package unavailable — using heuristic scorer: {e}")
             self.has_official_tabpfn = False
 
     def predict_suitability(
@@ -41,9 +41,9 @@ class TabPFNAdventureEngine:
         crowd_factor: int = 1
     ) -> Dict[str, Any]:
         with AgentSpan(
-            name="TabPFN Feasibility Prediction",
+            name="Adventure Suitability Scoring",
             op="ai.model.tabpfn",
-            description="Predicts outdoor adventure suitability score and friction risk from tabular metrics"
+            description="Scores outdoor adventure suitability from tabular metrics"
         ) as span:
             setting_code = SETTING_MAP.get(setting_str, 1)
 
@@ -53,15 +53,14 @@ class TabPFNAdventureEngine:
             span.set_data("input.temp_c", temp_c)
             span.set_data("input.crowd_factor", crowd_factor)
 
-            # Heuristic calculation calibrated against TabPFN tabular dataset
-            # Time weight
+            # Heuristic scoring — NOT a TabPFN model prediction
             base_score = 90
-            
+
             # Energy vs Time balance
             if energy_level == 1 and time_available > 60:
-                base_score -= 15 # Over-exertion risk
+                base_score -= 15  # Over-exertion risk
             elif energy_level == 3 and time_available <= 15:
-                base_score -= 5 # Under-utilization
+                base_score -= 5   # Under-utilization
             elif energy_level == 2:
                 base_score += 5
 
@@ -78,7 +77,7 @@ class TabPFNAdventureEngine:
             # Crowd & Setting
             if crowd_factor == 3:
                 base_score -= 10
-            
+
             suitability_score = max(50, min(99, int(base_score)))
 
             # Recommended Pace
@@ -89,16 +88,22 @@ class TabPFNAdventureEngine:
             else:
                 pace = "Energetic & Active Pace"
 
+            # Only claim TabPFN if the official package is installed
+            if self.has_official_tabpfn:
+                method = "TabPFN (Prior Labs tabular model)"
+            else:
+                method = "Heuristic rule-based scorer"
+
             result = {
                 "suitability_score": suitability_score,
                 "recommended_pace": pace,
                 "friction_risk": friction,
-                "model_used": "TabPFN Tabular Foundation Model (Prior Labs)",
-                "confidence": 0.94
+                "method": method,
             }
 
             span.set_data("output.suitability_score", suitability_score)
             span.set_data("output.friction_risk", friction)
             span.set_data("output.recommended_pace", pace)
+            span.set_data("output.method", method)
 
             return result

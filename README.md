@@ -68,8 +68,8 @@ PORT=8000
 ### Windows (PowerShell):
 ```powershell
 # 1. Clone repository
-git clone https://github.com/your-username/trailmates.git
-cd trailmates
+git clone https://github.com/riyanshika7/TRAILMATES.git
+cd TRAILMATES
 
 # 2. Create and activate virtual environment
 py -m venv .venv
@@ -85,8 +85,8 @@ py -m uvicorn app.main:app --reload --port 8000
 ### macOS / Linux:
 ```bash
 # 1. Clone repository
-git clone https://github.com/your-username/trailmates.git
-cd trailmates
+git clone https://github.com/riyanshika7/TRAILMATES.git
+cd TRAILMATES
 
 # 2. Create and activate virtual environment
 python3 -m venv .venv
@@ -103,26 +103,6 @@ Open your browser at **`http://localhost:8000`**.
 
 ---
 
-## 🚀 Render Deployment Guide (Step-by-Step)
-
-TrailMates is configured for 1-click deployment on [Render](https://render.com).
-
-1. Push your repository to GitHub.
-2. Log into the **Render Dashboard** and click **New +** -> **Blueprint**.
-3. Connect your GitHub repository containing `render.yaml`.
-4. Render will automatically detect `render.yaml` and configure:
-   - **Environment**: Python
-   - **Build Command**: `pip install -r requirements.txt`
-   - **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-   - **Health Check Path**: `/health`
-5. Under **Environment Variables** in the Render Dashboard, set:
-   - `HF_TOKEN`: Your Hugging Face user access token (from [hf.co/settings/tokens](https://huggingface.co/settings/tokens)).
-   - `HF_MODEL`: `google/gemma-2-9b-it` (or `meta-llama/Llama-3.2-3B-Instruct`).
-6. Click **Deploy**. Render will build and launch your application.
-
-> 💡 *Note on Demo Mode*: If no `HF_TOKEN` is added, TrailMates boots seamlessly in **Demo Mode**, serving rule-based outdoor plans clearly marked with *"Demo plan — AI inference is not configured"*.
-
----
 
 ## 📡 API Endpoint Reference
 

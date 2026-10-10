@@ -25,9 +25,10 @@ def init_sentry():
             environment=os.getenv("ENVIRONMENT", "development"),
             release="trailmates@1.0.0"
         )
-        logger.info("Sentry Agent Tracing initialized with live DSN.")
+        logger.info("Sentry initialized with live DSN — spans will be sent to Sentry.")
     else:
-        logger.info("Sentry initialized in agent-tracing transparency mode.")
+        logger.info("SENTRY_DSN not set — recording spans in-memory only (dev mode).")
+
 
 class AgentSpan:
     def __init__(self, name: str, op: str, description: str = ""):
