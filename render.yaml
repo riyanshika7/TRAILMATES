@@ -9,7 +9,7 @@ services:
       - key: ENVIRONMENT
         value: production
       - key: HF_MODEL
-        value: meta-llama/Llama-3.2-3B-Instruct
+        value: Qwen/Qwen2.5-7B-Instruct
       - key: HF_TOKEN
         sync: false
       - key: ELEVENLABS_API_KEY
